@@ -12,8 +12,8 @@ class Token():
                 'def', 'for', 'lambda', 'try']
     id_lex = '[A-Za-z_][A-Za-z_0-9]*'
 
-    delim = ['\(', '\)', '\[', '\]', '\{', '\}', '\-', '\*',
-             '\+', '\/', ':', '\=\=', '\+\=', '\-\=', '\*\=']
+    delim = ['\(', '\)', '\[', '\]', '\{', '\}',
+             '\=\=', '\+\=', '\-\=', '\*\=', '\-', '\*', '\+', '\/', ':', ]
 
     combined_keywords = "(" + "|".join(keywords) + ")"
     combined_delim = "(" + "|".join(delim) + " )"
@@ -23,6 +23,9 @@ class Token():
 
     def find_tokens(self, token):
         return re.split(self.combined_delim, token)
+
+    def get_tokens(self):
+        return self.get_token_types()
 
     def get_token_types(self):
         results = []
@@ -35,6 +38,9 @@ class Token():
                 results.append(('PUNCT', token))
             elif self.is_id(token):
                 results.append(('ID', token))
+            else:
+                if len(token) > 0:
+                    results.append(('ERROR', token))
         return results
 
     def print_tokens(self):

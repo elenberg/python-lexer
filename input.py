@@ -6,7 +6,7 @@
                                                       self.negative_pattern)
         if negative_matches:
             score.value *= -1
-            score.score -= 1
+            score.score -= 1 # whatfsfsfas OBVIOUSLY RIDICULOUS
         if score.value > 0.00:
             score.score += 1
         return score

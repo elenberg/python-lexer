@@ -17,13 +17,14 @@ class Token():
 
     delim = ['\(', '\)', '\[', '\]', '\{', '\}',
              '\=\=', '\+\=', '\-\=', '\*\=', '\-',
-             '\*', '\+', '\/', ':', ]
+             '\*', '\+', '\/', ':', ',']
 
     combined_keywords = "(" + "|".join(keywords) + ")"
     combined_delim = "(" + "|".join(delim) + " )"
 
     def __init__(self, token):
         self.tokens = self.find_tokens(token)
+        self.tokens = self.get_token_types()
 
     def find_tokens(self, token):
         general = re.split(self.combined_delim, token)
@@ -35,12 +36,15 @@ class Token():
             elif re.search('\.[A-Za-z]+[\dA-Za-z]*', item) is not None:
                 item = re.split('(\.)', item)
                 results.extend(item)
+            elif re.search('[A-Za-z]+[\dA-Za-z]*,', item):
+                item = re.split('(,)', item)
+                results.extend(item)
             else:
                 results.append(item)
         return results
 
     def get_tokens(self):
-        return self.get_token_types()
+        return self.tokens
 
     def get_token_types(self):
         results = []
@@ -59,7 +63,7 @@ class Token():
         return results
 
     def print_tokens(self):
-        for item in self.get_token_types():
+        for item in self.tokens:
             print '{} {}'.format(item[0], item[1])
 
     def is_keyword(self, token):

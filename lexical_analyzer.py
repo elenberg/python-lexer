@@ -29,6 +29,7 @@ class Token():
     def find_tokens(self, token):
         general = re.split(self.combined_delim, token)
         results = []
+        # ID Split rules.
         for item in general:
             if re.search('[A-Za-z]+[\dA-Za-z]*\.', item) is not None:
                 item = re.split('(\.)', item)
@@ -87,15 +88,36 @@ class Token():
         return False
 
 
-f = open('input.py', 'r')
-for line in f.readlines():
-    individuals = line.split()
-    if '#' in individuals:
-        del individuals[individuals.index('#'):]
-    for i in individuals:
-        token = Token(i)
-        token.print_tokens()
-print "{}".format('ENDMARKER')
+class TokensList():
+
+    def __init__(self, filename):
+        self.filename = filename
+        self.tokens = self.readfile()
+
+    def readfile(self):
+        f = open(self.filename, 'r')
+        results = []
+        for line in f.readlines():
+            individuals = line.split()
+            if '#' in individuals:
+                del individuals[individuals.index('#'):]
+            for i in individuals:
+                results.append(Token(i))
+        return results
+
+    def print_tokens(self):
+        for token in self.tokens:
+            token.print_tokens()
+        print "{}".format('ENDMARKER')
+
+    def get_tokens(self):
+        results = []
+        for token in self.tokens:
+            results.extend(token.get_tokens())
+        return results
+
+t = TokensList('input.py')
+print t.print_tokens()
 
 
 # Everett Lenberg

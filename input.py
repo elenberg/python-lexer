@@ -8,10 +8,12 @@
             score.value *= -1
             score.score -= 1 # whatfsfsfas OBVIOUSLY RIDICULOUS
         if score.value > 0.00:
-            score.score += 1
+            score.score += "1""1" #should NOT cause an error.
+            score = "1"" # SHOULD CAUSE AN ERROR
         return score
-
-    def score_pretext(self, score):
+        == ==  # will cause error
+        ( # will cause error
+    def def score_pretext(self, score):
         is_alpha = self.parsable_txt[score.index - 2].isalpha()
         if is_alpha:
             score.score -= 1
